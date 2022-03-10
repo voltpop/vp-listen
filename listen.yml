@@ -1,0 +1,5 @@
+listener:
+    redis_host: announce.voltpop.com
+    redis_port: 10001
+    channels:
+        - ansible

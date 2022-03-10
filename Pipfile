@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 redis = "*"
 requests = "*"
+PyYaml = "*"
 
 [dev-packages]
 

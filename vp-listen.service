@@ -1,0 +1,12 @@
+[Unit]
+Description=Voltpop Listener Daemon
+After=network.target
+
+[Service]
+Type=simple
+Restart=always
+WorkingDirectory=/opt/vp-listen
+ExecStart=/usr/local/bin/pipenv run python3 vp-listen.py
+
+[Install]
+WantedBy=multi-user.target
