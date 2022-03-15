@@ -6,6 +6,7 @@ import yaml
 import pprint
 import subprocess
 import logging
+import jinja2
 
 logging.basicConfig(level=logging.INFO)
 pp = pprint.PrettyPrinter()
@@ -25,15 +26,18 @@ if __name__ == "__main__":
         t = p.get_message()
         if t and t["type"] == "message":
             logging.info("Received message for %s" % t["channel"].decode('utf8'))
+            data = pickle.loads(codecs.decode(t["data"], 'base64'))
             channel_config = next((channel for channel in config["channels"] if channel["name"] == t["channel"].decode('utf8')), None)
             if channel_config["action"]:
                 if isinstance(channel_config['action'], str):
-                    subprocess.call(channel_config["action"].split())
+                    c = jinja2.Template(channel_config["action"]).render(data=data)
+                    logging.info("%s" % subprocess.check_output(c.split()).decode())
                 elif isinstance(channel_config["action"], list):
-                    [ logging.info("%s" % subprocess.check_output(cmd.split())) for cmd in channel_config["action"] ]
+                    for cmd in channel_config["action"]:
+                        c = jinja2.Template(cmd).render(data=data)
+                        logging.info("%s" % subprocess.check_output(c.split()).decode())
                 else:
                     logging.error("ERROR! in action statement: %s" % channel_config["action"])
-            #data = pickle.loads(codecs.decode(t['data'], 'base64'))
-            #logging.debug("%s" % str(data))
+            logging.debug("%s" % str(data))
         else:
             time.sleep(1)

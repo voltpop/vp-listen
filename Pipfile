@@ -7,6 +7,7 @@ name = "pypi"
 redis = "*"
 requests = "*"
 PyYaml = "*"
+Jinja2 = "*"
 
 [dev-packages]
 

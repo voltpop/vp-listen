@@ -4,5 +4,5 @@ listener:
     channels:
         - name: ansible
           action:
-            - "git pull"
+            - "echo Release: {{ data.head_commit.id }}"
             - "git status"
