@@ -33,14 +33,14 @@ if __name__ == "__main__":
                     c = jinja2.Template(channel_config["action"]).render(data=data)
                     try:
                         logging.info("%s" % subprocess.check_output(c.split()).decode())
-                    except Exception, e:
+                    except Exception as e:
                         logging.error("%s" % e.output)
                 elif isinstance(channel_config["action"], list):
                     for cmd in channel_config["action"]:
                         c = jinja2.Template(cmd).render(data=data)
                         try:
                             logging.info("%s" % subprocess.check_output(c.split()).decode())
-                        except Exception, e:
+                        except Exception as e:
                             logging.error("%s" % e.output)
                 else:
                     logging.error("ERROR! in action statement: %s" % channel_config["action"])
