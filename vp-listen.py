@@ -19,7 +19,7 @@ if __name__ == "__main__":
     p = r.pubsub()
     
     for channel in config["channels"]:
-        logging.info("Subscribing to channel: %s" % (channel['name']))
+        logging.info("Subscribing to channel: %s" % (channel["name"]))
         p.subscribe(channel['name'])
 
     while True:
