@@ -31,13 +31,15 @@ if __name__ == "__main__":
             if channel_config["action"]:
                 if isinstance(channel_config['action'], str):
                     c = jinja2.Template(channel_config["action"]).render(data=data)
-                    logging.info("%s" % subprocess.check_output(c.split()).decode())
+                    try:
+                        logging.info("%s" % subprocess.check_output(c.split()).decode())
                     except Exception, e:
                         logging.error("%s" % e.output)
                 elif isinstance(channel_config["action"], list):
                     for cmd in channel_config["action"]:
                         c = jinja2.Template(cmd).render(data=data)
-                        logging.info("%s" % subprocess.check_output(c.split()).decode())
+                        try:
+                            logging.info("%s" % subprocess.check_output(c.split()).decode())
                         except Exception, e:
                             logging.error("%s" % e.output)
                 else:
