@@ -25,25 +25,10 @@ if __name__ == "__main__":
     while True:
         t = p.get_message()
         if t and t["type"] == "message":
-            logging.info("Received message for %s" % t["channel"].decode('utf8'))
+            channel_name = t["channel"].decode('utf8')
+            logging.debug("Received message for %s" % channel_name)
             data = pickle.loads(codecs.decode(t["data"], 'base64'))
             channel_config = next((channel for channel in config["channels"] if channel["name"] == t["channel"].decode('utf8')), None)
-            if channel_config["action"]:
-                if isinstance(channel_config['action'], str):
-                    c = jinja2.Template(channel_config["action"]).render(data=data)
-                    try:
-                        logging.info("%s" % subprocess.check_output(c.split()).decode())
-                    except Exception as e:
-                        logging.error("%s" % e.output)
-                elif isinstance(channel_config["action"], list):
-                    for cmd in channel_config["action"]:
-                        c = jinja2.Template(cmd).render(data=data)
-                        try:
-                            logging.info("%s" % subprocess.check_output(c.split()).decode())
-                        except Exception as e:
-                            logging.error("%s" % e.output)
-                else:
-                    logging.error("ERROR! in action statement: %s" % channel_config["action"])
-            logging.debug("%s" % str(data))
+            logging.info("%s: %s" % (channel_name, str(data)))
         else:
             time.sleep(1)

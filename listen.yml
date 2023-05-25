@@ -5,3 +5,4 @@ listener:
         - name: ansible
           action:
             - "echo Release: {{ data.head_commit.id }}"
+        - name: social
