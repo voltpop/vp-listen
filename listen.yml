@@ -3,6 +3,5 @@ listener:
     redis_port: 10001
     channels:
         - name: ansible
-          action:
-            - "echo Release: {{ data.head_commit.id }}"
         - name: social
+          action: "echo \"{{ data }}\""
